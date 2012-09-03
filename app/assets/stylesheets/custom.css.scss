@@ -1,0 +1,100 @@
+@import "bootstrap";
+
+/* mixins, variables, etc. */
+
+/* universal */
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	padding-top: 0px;
+}
+
+section {
+	overflow: auto;
+}
+
+textarea {
+	resize: vertical;
+}
+
+.center {
+	text-align: center;
+  h1 {
+    margin-bottom: 10px;
+  }
+}
+
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1;
+}
+
+h1 {
+	font-size: 3em;
+	letter-spacing: -2px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+h2 {
+	font-size: 1.7em;
+	letter-spacing: -1px;
+	margin-bottom: 30px;
+	text-align: center;
+	font-weight: normal;
+	color: #999;
+}
+
+p {
+	font-size: 1.1em;
+	line-height: 1.7em;
+}
+
+/* header */
+
+.cabecera {
+	width: 700px;
+}
+
+.navbar-inner {
+  background-image: url('header/fondo.png');
+  background-size: cover;
+  padding-top: 20px;
+}
+
+.top-navbar {
+	height: 100px;
+	width: 880px;
+	margin: auto;
+}
+
+.top-izquierda {
+	float: right;
+	color: #fff;
+	font-size: 1.2em;
+}
+
+.redes-sociales {
+	margin-top: 14px;
+}
+
+#logo {
+	float: left;
+	margin-right: 10px;
+}
+
+.menu {
+	background-image: url('header/menu.png');
+  	background-size: cover;
+  	width: 898px;
+  	height: 86px;
+  	margin: auto;
+  	margin-bottom: 20px;
+}
+
+/* footer */
+

@@ -1,4 +1,10 @@
 CarryApp::Application.routes.draw do
+  root to: 'static_pages#inicio'
+
+  match 'servicio', to: 'static_pages#servicio'
+
+  match 'contacto', to: 'static_pages#contacto'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
