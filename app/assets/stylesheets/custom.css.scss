@@ -68,12 +68,21 @@ p {
 	margin-bottom: 10px;
 }
 
-.navbar-inner {
-  background-color: transparent;
-  background-image: url("header/fondo.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 20px;
+.navbar-inner-personal {
+  	background-color: transparent;
+  	background-image: url("header/fondo.png");
+  	background-size: cover;
+  	background-repeat: no-repeat;
+  	padding-top: 20px;
+  	min-height: 40px;
+  	padding-left: 20px;
+  	padding-right: 20px;
+  	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .top-navbar {
