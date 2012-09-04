@@ -7,7 +7,28 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= render 'layouts/header' %>
+<header class="navbar" >
+	<div class="navbar-inner">
+		<div class="cabecera container">
+			<div class="row top-navbar">
+				<%= link_to image_tag("header/logo.png", alt: "Carry", id: "logo"), root_path %>
+				<div class="top-izquierda">
+					<div class="row"><%= image_tag("header/phone-icon.png", alt: "Teléfono") %> 02 1234567</div>
+					<div class="row redes-sociales">
+						<%= link_to image_tag("header/facebook.png", alt: "Facebook", id: "logo"), '#' %>
+						<%= link_to image_tag("header/twitter.png", alt: "Twitter", id: "logo"), '#' %>
+					</div>
+				</div>
+			</div>
+			<div class="row menu">
+				<%= link_to image_tag("header/menu/inicio"+menu_activo(yield(:title), "")+".png", alt: "Inicio", style: "margin-left: 3px;"), root_path, class: "inicio" %>
+				<%= link_to image_tag("header/menu/servicio"+menu_activo(yield(:title), "Servicio")+".png", alt: "Servicio", style: "margin-left: -3px;"), servicio_path %>
+				<%= link_to image_tag("header/menu/cotiza"+menu_activo(yield(:title), "Cotiza")+".png", alt: "Cotiza", style: "margin-left: -4px;"), '#' %>
+				<%= link_to image_tag("header/menu/contacto"+menu_activo(yield(:title), "Contacto")+".png", alt: "Contacto", style: "margin-left: -6px;"), contacto_path %>
+			</dvi>
+		</div>
+	</div>
+</header>
 <div class="container">
 	<%= yield %>
 </div>

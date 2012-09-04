@@ -8,4 +8,12 @@ module ApplicationHelper
 			"#{base_title} | #{page_title}"
 		end
 	end
+
+	def menu_activo(page_title, menu)
+		if page_title == menu
+			"-activo"
+		else
+			""
+		end
+	end
 end
