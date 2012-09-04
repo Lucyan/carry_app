@@ -69,9 +69,10 @@ p {
 }
 
 .navbar-inner {
-  background-image: url('header/fondo.png');
-  background-size: cover;
   background-color: transparent;
+  background-image: url("header/fondo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   padding-top: 20px;
 }
 
