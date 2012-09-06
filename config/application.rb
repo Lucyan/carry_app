@@ -67,17 +67,17 @@ module CarryApp
 
     # Configuración ActionMailer
     config.action_mailer.smtp_settings = {
-        addres:                 "smtp.gmail.com",
-        port:                   587,
-        domain:                 "gmail.com",
-        user_name:              "leonardo311@gmail.com",
-        password:               "joganele",
-        authentication:         :plain,
-        enable_starttls_auto:   true
+        :addres =>                 "smtp.gmail.com",
+        :port =>                   587,
+        :domain =>                 "gmail.com",
+        :user_name =>              "leonardo311@gmail.com",
+        :password =>               "joganele",
+        :authentication =>         :plain,
+        :enable_starttls_auto =>   true
     }
 
     config.action_mailer.default_url_options = {
-        host: "gmail.com"
+        :host => "gmail.com"
     }
 
   end
