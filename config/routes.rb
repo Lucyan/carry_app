@@ -3,7 +3,10 @@ CarryApp::Application.routes.draw do
 
   match 'servicio', to: 'static_pages#servicio'
 
-  match 'contacto', to: 'static_pages#contacto'
+  match 'contact', to: 'static_pages#contacto'
+
+  match 'contacto' => 'contacto#new', :as => 'contacto', :via => :get
+  match 'contacto' => 'contacto#create', :as => 'contacto', :via => :post
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
