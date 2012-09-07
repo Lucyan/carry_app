@@ -53,6 +53,7 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     ffi (1.1.5)
+    gmaps4rails (1.5.5)
     hike (1.2.1)
     i18n (0.6.1)
     journey (1.0.4)
@@ -144,6 +145,7 @@ DEPENDENCIES
   bootstrap-sass (= 2.0.4)
   capybara (= 1.1.2)
   coffee-rails (= 3.2.2)
+  gmaps4rails
   jquery-rails (= 2.0.2)
   pg (= 0.12.2)
   rails (= 3.2.8)

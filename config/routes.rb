@@ -1,7 +1,11 @@
 CarryApp::Application.routes.draw do
+
   root to: 'static_pages#inicio'
 
   match 'servicio', to: 'static_pages#servicio'
+
+  match 'cotiza', to: 'cotizar#nuevo'
+  match 'cotiza/puntos', to: 'cotizar#entregar_puntos'
 
   match 'contact', to: 'static_pages#contacto'
 

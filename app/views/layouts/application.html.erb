@@ -34,7 +34,7 @@
 				<div class="row menu">
 					<%= link_to image_tag("header/menu/inicio"+menu_activo(yield(:title), "")+".png", alt: "Inicio", style: "margin-left: 3px;"), root_path %>
 					<%= link_to image_tag("header/menu/servicio"+menu_activo(yield(:title), "Servicio")+".png", alt: "Servicio", style: "margin-left: -3px;"), servicio_path %>
-					<%= link_to image_tag("header/menu/cotiza"+menu_activo(yield(:title), "Cotiza")+".png", alt: "Cotiza", style: "margin-left: -4px;"), '#' %>
+					<%= link_to image_tag("header/menu/cotiza"+menu_activo(yield(:title), "Cotiza")+".png", alt: "Cotiza", style: "margin-left: -4px;"), cotiza_path %>
 					<%= link_to image_tag("header/menu/contacto"+menu_activo(yield(:title), "Contacto")+".png", alt: "Contacto", style: "margin-left: -6px;"), contacto_path %>
 				</dvi>
 			</div>
@@ -49,7 +49,7 @@
 	<footer>
 		<%= link_to "Inicio", root_path %> | 
 		<%= link_to "Servicio", servicio_path %> | 
-		<%= link_to "Cotiza", "#" %> | 
+		<%= link_to "Cotiza", cotiza_path %> | 
 		<%= link_to "Contacto", contacto_path %>
 	</footer>
 </div>
