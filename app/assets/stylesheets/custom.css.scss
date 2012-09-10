@@ -174,16 +174,18 @@ li span {
   	margin-bottom: 30px;
 }
 
-
-.fields {
-	padding-top: 45px;
-	.field {
-		display: inline-block;
-		* {
-			font-weight: bold;
+.formulario {
+	.fields {
+		padding-top: 45px;
+		.field {
+			display: inline-block;
+			* {
+				font-weight: bold;
+			}
 		}
 	}
 }
+
 
 .mensaje {
 	padding-top: 40px;
@@ -197,6 +199,49 @@ li span {
 	input {
 		float: right;
 		margin-right: 65px;
+	}
+}
+
+.form_origen {
+	background-image: url('cotiza/fondo-destinos.png');
+  	background-size: cover;
+  	height: 255px;
+  	width: 581px;
+  	box-shadow:         2px 5px 16px rgba(50, 50, 50, 0.75);
+  	border-radius: 20px;
+  	* {
+		font-weight: bold;
+	}
+	.titulo {
+		padding-top: 25px;
+		text-align: left;
+		padding-left: 77px;
+		font-size: 13pt;
+	}
+	form {
+		padding-top: 10px;
+		padding-left: 35px;
+		.fields {
+			text-align: left;
+	  		.field {
+	  			display: inline-block;
+	  			margin-right: 30px;
+	  			margin-bottom: 15px;
+	  			label {
+	  				text-align: center;
+	  			}
+	  			input[type="text"] {
+			  		border-radius: 10px;
+			  	}
+			  	input[name="punto[numero]"] {
+			  		width: 50px;
+			  	}
+	  		}
+	  		.interseccion {
+	  			position: absolute;
+				padding-left: 254px;
+	  		}
+	  	}
 	}
 }
 

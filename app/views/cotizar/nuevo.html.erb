@@ -1,6 +1,73 @@
 <% provide(:title, 'Cotiza') %>
-<div class="center hero-unit">
+<script>
+	$(document).ready(function() {
 
+		$('.interseccion').hide();
+
+		// Interceptamos el evento submit
+	    $('#new_punto').submit(function() {
+	  	// Enviamos el formulario usando AJAX
+	        $.ajax({
+	            type: 'POST',
+	            dataType: 'json',
+	            url: $(this).attr('action'),
+	            data: $(this).serialize(),
+	            // Mostramos un mensaje con la respuesta de PHP
+	            success: function(data) {
+	            	$('.lista-puntos').remove();
+	            	var items = [];
+
+	            	$.each(data, function(k,v){
+	            		$.each(v, function(key, val) {
+    						items.push('<li id="' + key + '">' + val + '</li>');
+  						});
+	            	});
+
+	            	$('<ul/>', {
+					    'class': 'lista-puntos',
+					    html: items.join('')
+					}).appendTo('.puntos');
+
+					limpiar_formulario('#new_punto');
+					$('#punto_tipo_0').attr('checked', 'checked');
+					$('.interseccion').hide();
+	            }
+	        })        
+	        return false;
+	    });
+
+	    $('#punto_tipo_0').click(function() {
+	    	$('.interseccion').hide();
+	    });
+
+	    $('#punto_tipo_1').click(function() {
+	    	$('.interseccion').show();
+	    });
+	});
+
+	function limpiar_formulario(ele) {
+
+	    $(ele).find(':input').each(function() {
+	        switch(this.type) {
+	            case 'password':
+	            case 'select-multiple':
+	            case 'select-one':
+	            case 'text':
+	            	$(this).val('');
+	                break;
+	            case 'textarea':
+	                $(this).val('');
+	                break;
+	            case 'checkbox':
+	            case 'radio':
+	                this.checked = false;
+	                break;
+	        }
+	    });
+
+	}
+</script>
+<div class="center hero-unit">
 	<!-- Mensajes -->
 	<% if flash[:notice] %>
       	<p class="notice"><%= flash[:notice] %></p>
@@ -8,6 +75,43 @@
     <% if flash[:error] %>
       	<p class="error"><%= flash[:error] %></p>
     <% end %>
+
+    <div class="form_origen">
+    	<div class="titulo">Origen</div>
+		<%= form_for @punto_origen, :url => cotiza_puntos_path do |form| %>
+			<fieldset class="fields">
+				<div class="field">
+					<%= form.label :calle %>
+					<%= form.text_field :calle, size: 5 %>
+				</div>
+
+				<div class="field numero">
+					<%= form.label :numero %>
+					<%= form.text_field :numero %>
+				</div>
+
+				<div class="field interseccion">
+					<%= form.label :interseccion %>
+					<%= form.text_field :interseccion %>
+				</div>
+
+				<div class="field">
+					<%= form.label :comuna %>
+					<%= form.text_field :comuna %>
+				</div>
+
+				<div class="field">
+					<%= form.label :tipo %>
+					Dirección <%= form.radio_button :tipo, "0", { checked: "checked" } %>
+					Intersección <%= form.radio_button :tipo, "1" %>
+				</div>
+			</fieldset>
+
+			<fieldset class="actions">
+				<%= form.submit "Buscar" %>
+			</fieldset>
+		<% end %>
+	</div>
 
 	<div class="form_cotizacion">
 		<%= form_for @cotizacion, :url => cotiza_path do |form| %>
@@ -39,41 +143,6 @@
 		<% end %>
 	</div>
 
-	<div class="form_origen">
-		<%= form_for @punto_origen, :url => cotiza_puntos_path do |form| %>
-			<fieldset class="fields_final">
-				<div class="field">
-					<%= form.label :calle %>
-					<%= form.text_field :calle %>
-				</div>
-
-				<div class="field">
-					<%= form.label :numero %>
-					<%= form.text_field :numero %>
-				</div>
-
-				<div class="field">
-					<%= form.label :comuna %>
-					<%= form.text_field :comuna %>
-				</div>
-
-				<div class="field">
-					<%= form.label :tipo %>
-					<%= form.text_field :tipo %>
-				</div>
-
-				<div class="field">
-					<%= form.label :interseccion %>
-					<%= form.text_field :interseccion %>
-				</div>
-			</fieldset>
-
-			<fieldset class="actions">
-				<%= form.submit "Buscar" %>
-			</fieldset>
-		<% end %>
+	<div class="puntos">
 	</div>
-
-	<%= gmaps( {"direction" => { data => { "from" => "Paris, france", "to" => "Toulon, france" } } } ) %>
-
 </div>
