@@ -11,15 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120907214037) do
+ActiveRecord::Schema.define(:version => 20120911154417) do
 
   create_table "cotizas", :force => true do |t|
     t.string   "nombre"
     t.string   "email"
     t.integer  "telefono"
     t.datetime "fecha"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "numero_personas"
   end
 
   create_table "puntos", :force => true do |t|

@@ -298,15 +298,85 @@ li span {
 	  	}
 	  	.fields {
 	  		.fecha {
-		  		margin-top: 40px;
+		  		margin-top: 10px;
+		  		margin-bottom: 10px;
+		  		select {
+		  			padding: 0;
+		  			height: 18px;
+		  		}
+		  	}
+		  	.field-linea {
+		  		* {
+		  			display: inline-block;
+		  			margin: 0;
+		  			padding: 0;
+		  		}
+		  		text-align: left;
+				width: 215px;
+				padding-left: 24px;
+				margin-bottom: 20px;
+		  		.input-mini {
+		  			float: right;
+		  			border-radius: 20px;
+		  			text-align: right;
+		  			padding: 0 5px;
+		  		}
 		  	}
 	  	}
 	  	.actions {
 	  		input {
-	  			margin-top: 30px;
+	  			margin-top: 15px;
 	  			margin-right: 25px;
 	  		}
 	  	}
+	}
+}
+
+.puntos {
+	display: block;
+	width: 820px;
+	height: auto;
+	margin-top: 25px;
+	box-shadow:         2px 5px 16px rgba(50, 50, 50, 0.75);
+  	border-radius: 20px;
+  	* {
+		font-weight: bold;
+	}
+	.header, .footer {
+		position: relative;
+		display: block;
+		width: 100%
+	}
+	.header {
+		background-image: url('cotiza/tabla-header.png');
+  		background-size: cover;
+  		height: 62px;
+  		text-align: left;
+  		.titulo {
+  			font-size: 13pt;
+  			margin-left: 83px;
+			margin-top: 26px;
+			display: inline-block;
+  		}
+	}
+	.footer {
+		background-image: url('cotiza/tabla-footer.png');
+  		background-size: cover;
+  		height: 30px;
+	}
+	.contenido {
+		width: 730px;
+		background-image: url('cotiza/tabla-row.png');
+		background-size: cover;
+		padding: 0 45px 0 45px;
+		table {
+			width: 100%;
+			.cabecera {
+				font-size: 15px;
+				color: #898989;
+				border-bottom: 1px solid #cfcfcf;
+			}
+		}
 	}
 }
 

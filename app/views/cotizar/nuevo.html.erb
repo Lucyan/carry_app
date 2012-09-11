@@ -2,6 +2,8 @@
 <script>
 	var tipo = ".interseccion"
 	var numero = ".numero"
+	var numero_destinos = 0;
+	var total = 0;
 
 	$(document).ready(function() {
 
@@ -23,19 +25,44 @@
             url: '<%= cotiza_puntos_entregar_path %>',
             // Mostramos un mensaje con la respuesta de PHP
             success: function(data) {
-            	$('.lista-puntos').remove();
-            	var items = [];
+            	$('.tabla-contenido').remove();
 
-            	$.each(data, function(k,v){
-            		$.each(v, function(key, val) {
-						items.push('<li id="' + key + '">' + val + '</li>');
-						});
-            	});
+            	if (data.length > 0) {
+            		var items = [];
+	            	numero_destinos = 0;
 
-            	$('<ol/>', {
-				    'class': 'lista-puntos',
-				    html: items.join('')
-				}).appendTo('.puntos');
+	            	$.each(data, function(key,val){
+	            		numero_destinos++;
+
+	            		var items = [];
+	            		if (key == 0) {
+	            			llenar_formulario(val);
+	            			bloquear_formulario('.origen');
+	            			habilitar_formulario('.destino');
+	            			$('.reset').removeAttr("disabled"); 
+	            			items.push('<td>Origen</td>');
+	            		} else {
+	            			items.push('<td>' + key + '</td>');
+	            		}
+	            		items.push('<td>' + val.calle + '</td>');
+	            		if (val.tipo == 0) {
+	            			items.push('<td>Dirección</td>');
+	            			items.push('<td>' + val.numero + '</td>');
+	            		} else {
+	            			items.push('<td>Intersección</td>');
+	            			items.push('<td>' + val.interseccion + '</td>');
+	            		}
+	            		items.push('<td>' + val.comuna + '</td>');
+	            		items.push('<td>Acciones</td>');
+
+	            		$('<tr/>', {
+						    'class': 'tabla-contenido',
+						    html: items.join('')
+						}).appendTo('.lista-puntos');
+	            	});
+            	}
+
+            	$('.text-destinos').html(numero_destinos);
             }
         })
 
@@ -64,19 +91,38 @@
 	            data: $(this).serialize(),
 	            // Mostramos un mensaje con la respuesta de PHP
 	            success: function(data) {
-	            	$('.lista-puntos').remove();
+	            	$('.tabla-contenido').remove();
 	            	var items = [];
+	            	numero_destinos = 0;
 
-	            	$.each(data, function(k,v){
-	            		$.each(v, function(key, val) {
-    						items.push('<li id="' + key + '">' + val + '</li>');
-  						});
+	            	$.each(data, function(key,val){
+	            		numero_destinos++;
+
+	            		var items = [];
+	            		if (key == 0) {
+	            			items.push('<td>Origen</td>');
+	            		} else {
+	            			items.push('<td>' + key + '</td>');
+	            		}
+	            		items.push('<td>' + val.calle + '</td>');
+	            		if (val.tipo == 0) {
+	            			items.push('<td>Dirección</td>');
+	            			items.push('<td>' + val.numero + '</td>');
+	            		} else {
+	            			items.push('<td>Intersección</td>');
+	            			items.push('<td>' + val.interseccion + '</td>');
+	            		}
+	            		items.push('<td>Acciones</td>');
+
+	            		$('<tr/>', {
+						    'class': 'tabla-contenido',
+						    html: items.join('')
+						}).appendTo('.lista-puntos');
 	            	});
 
-	            	$('<ol/>', {
-					    'class': 'lista-puntos',
-					    html: items.join('')
-					}).appendTo('.puntos');
+	            	$('.text-destinos').html(numero_destinos);
+
+	            	
 
 					if (limpiar) {
 						limpiar_formulario('.destino');
@@ -108,31 +154,50 @@
 
 	    // Resetea puntos
 	    $('.reset').click(function() {
-	    	$.ajax({
-            type: 'POST',
-            url: '<%= cotiza_puntos_eliminar_path %>',
-            // Mostramos un mensaje con la respuesta de PHP
-            success: function() {
-            	$('.lista-puntos').remove();
+	    	if (confirm("Está seguro que quiere comenzar nuevamente? (Se eliminaran todos los destinos ingresados)")) {
+	    		$.ajax({
+		            type: 'POST',
+		            url: '<%= cotiza_puntos_eliminar_path %>',
+		            // Mostramos un mensaje con la respuesta de PHP
+		            success: function() {
+		            	$('.tabla-contenido').remove();
 
-            	// Prepara formularios de puntos
-				$('.interseccion').hide();
-				$('.interseccion_destino').hide();
-				$('.numero').css('display', 'inline-block');
-				$('.numero_destino').css('display', 'inline-block');
-				limpiar_formulario('.origen');
-				limpiar_formulario('.destino');
-				$('#punto_tipo_0').attr('checked', 'checked');
-				$('#punto_tipo_0_destino').attr('checked', 'checked');
-				bloquear_formulario('.destino');
-				habilitar_formulario('.origen');
-				tipo = ".interseccion"
-				numero = ".numero"
-            }
-        })
+		            	// Prepara formularios de puntos
+						$('.interseccion').hide();
+						$('.interseccion_destino').hide();
+						$('.numero').css('display', 'inline-block');
+						$('.numero_destino').css('display', 'inline-block');
+						limpiar_formulario('.origen');
+						limpiar_formulario('.destino');
+						$('#punto_tipo_0').attr('checked', 'checked');
+						$('#punto_tipo_0_destino').attr('checked', 'checked');
+						bloquear_formulario('.destino');
+						habilitar_formulario('.origen');
+						tipo = ".interseccion"
+						numero = ".numero"
+						$('.text-destinos').html("0");
+		            }
+	        	});
+	    	}
 	    });
 
 	});
+
+	function llenar_formulario(valor) {
+		$('.origen input[name="punto[calle]"]').val(valor.calle)
+		$('.origen input[name="punto[numero]"]').val(valor.numero)
+		$('.origen input[name="punto[interseccion]"]').val(valor.interseccion)
+		$('.origen input[name="punto[comuna]"]').val(valor.comuna)
+		if (valor.tipo == 0) {
+			$('.origen input[id="punto_tipo_0"]').attr('checked', 'checked');
+			$('.origen input[id="punto_tipo_1"]').removeAttr('checked');
+		} else {
+			$('.origen input[id="punto_tipo_1"]').attr('checked', 'checked');
+			$('.origen input[id="punto_tipo_0"]').removeAttr('checked');
+			$('.interseccion').css('display', 'inline-block');
+			$('.numero').hide();
+		}
+	}
 
 	function limpiar_formulario(ele) {
 
@@ -191,12 +256,12 @@
 				</div>
 
 				<div class="field numero">
-					<%= form.label :numero %>
+					<%= form.label :numero, "Número" %>
 					<%= form.text_field :numero %>
 				</div>
 
 				<div class="field interseccion">
-					<%= form.label :interseccion %>
+					<%= form.label :interseccion, "Intersección" %>
 					<%= form.text_field :interseccion %>
 				</div>
 
@@ -229,12 +294,12 @@
 				</div>
 
 				<div class="field numero_destino">
-					<%= form.label :numero %>
+					<%= form.label :numero, "Número" %>
 					<%= form.text_field :numero %>
 				</div>
 
 				<div class="field interseccion_destino">
-					<%= form.label :interseccion %>
+					<%= form.label :interseccion, "Intersección" %>
 					<%= form.text_field :interseccion %>
 				</div>
 
@@ -267,20 +332,27 @@
 				</div>
 
 				<div class="field">
-					<%= form.label :telefono %>
+					<%= form.label :telefono, "Teléfono" %>
 					<%= form.text_field :telefono %>
 				</div>
 
 				<div class="field">
-					<%= form.label :email %>
+					<%= form.label :email, "E-Mail" %>
 					<%= form.text_field :email, placeholder: "nombre@dominio.com" %>
 				</div>
 
 				<div class="field fecha">
-					<%= form.label :fecha %>
+					<%= form.label :fecha, "Fecha Viaje" %>
 					<%= form.datetime_select :fecha, start_year: Date.current.year, end_year: Date.current.year + 5, 
 													order: [:day, :month, :year], default: 5.days.from_now, minute_step: 10 %>
 				</div>
+
+				<div class="field-linea">
+					<%= form.label :numero_personas, "Número de Personas" %>
+					<%= form.text_field :numero_personas, { class: "input-mini" } %>
+				</div>
+				<div class="field-linea">Número de Destinos <span class="input-mini uneditable-input text-destinos">0</span></div>
+				<div class="field-linea">Total Aproximado <span class="input-mini uneditable-input text-total">0</span></div>
 			</fieldset>
 
 			<fieldset class="actions">
@@ -290,5 +362,35 @@
 	</div>
 
 	<div class="puntos">
+		<div class="header" ><span class="titulo" >Lista de Destinos</span></div>
+		<div class="contenido">
+			<table class="lista-puntos">
+				<tr class="cabecera">
+					<th class="inicio">Destino</th>
+					<th>Calle</th>
+					<th>Tipo</th>
+					<th>Número/Intersección</th>
+					<th>Comuna</th>
+					<th class="fin">Acciones</th>
+				</tr>
+				<tr class="tabla-contenido">
+					<td>1</td>
+					<td>Calle 1</td>
+					<td>Intersección</td>
+					<td>Calle 2</td>
+					<td>Comuna1</td>
+					<td>Acciones</td>
+				</tr>
+				<tr class="tabla-contenido">
+					<td>2</td>
+					<td>Calle 3</td>
+					<td>Dirección</td>
+					<td>123123</td>
+					<td>Comuna1</td>
+					<td>Acciones</td>
+				</tr>
+			</table>
+		</div>
+		<div class="footer" ></div>
 	</div>
 </div>
