@@ -1,12 +1,62 @@
 <% provide(:title, 'Cotiza') %>
 <script>
+	var tipo = ".interseccion"
+	var numero = ".numero"
+
 	$(document).ready(function() {
 
+		// Prepara formato de fecha
+		$('.fecha').find('select').each(function() {
+	        $(this).attr("class", 'span1'); 
+	    });
+
+		// Prepara formularios de puntos
 		$('.interseccion').hide();
+		$('.interseccion_destino').hide();
+		$('.load').hide();
+		bloquear_formulario('.destino');
+
+		// Trae los puntos si estos existen en session
+		$.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '<%= cotiza_puntos_entregar_path %>',
+            // Mostramos un mensaje con la respuesta de PHP
+            success: function(data) {
+            	$('.lista-puntos').remove();
+            	var items = [];
+
+            	$.each(data, function(k,v){
+            		$.each(v, function(key, val) {
+						items.push('<li id="' + key + '">' + val + '</li>');
+						});
+            	});
+
+            	$('<ol/>', {
+				    'class': 'lista-puntos',
+				    html: items.join('')
+				}).appendTo('.puntos');
+            }
+        })
 
 		// Interceptamos el evento submit
-	    $('#new_punto').submit(function() {
-	  	// Enviamos el formulario usando AJAX
+	    $('.new_punto').submit(function() {
+
+	    	$('.load').show();
+
+	    	var limpiar = true;
+
+	    	if ($(this).attr('class') == "new_punto origen") {
+	    		habilitar_formulario('.destino');
+	    		tipo = ".interseccion";
+	    		numero = ".numero";
+	    		limpiar = false;
+	    	} else {
+	    		tipo = ".interseccion_destino";
+	    		numero = ".numero_destino";
+	    	}
+
+	  		// Enviamos el formulario usando AJAX
 	        $.ajax({
 	            type: 'POST',
 	            dataType: 'json',
@@ -23,26 +73,65 @@
   						});
 	            	});
 
-	            	$('<ul/>', {
+	            	$('<ol/>', {
 					    'class': 'lista-puntos',
 					    html: items.join('')
 					}).appendTo('.puntos');
 
-					limpiar_formulario('#new_punto');
-					$('#punto_tipo_0').attr('checked', 'checked');
-					$('.interseccion').hide();
+					if (limpiar) {
+						limpiar_formulario('.destino');
+						$('#punto_tipo_0_destino').attr('checked', 'checked');
+						$(tipo).hide();
+						$(numero).css('display', 'inline-block');
+					}
+
+					bloquear_formulario('.origen');
+					$('.reset').removeAttr("disabled"); 
+					tipo = ".interseccion_destino";
+	    			numero = ".numero_destino";
 	            }
-	        })        
+	        })
+
+	        $('.load').hide();
 	        return false;
 	    });
 
-	    $('#punto_tipo_0').click(function() {
-	    	$('.interseccion').hide();
+	    $('.destino_0').click(function() {
+	    	$(tipo).hide();
+	    	$(numero).css('display', 'inline-block');
 	    });
 
-	    $('#punto_tipo_1').click(function() {
-	    	$('.interseccion').show();
+	    $('.destino_1').click(function() {
+	    	$(tipo).css('display', 'inline-block');
+	    	$(numero).hide();
 	    });
+
+	    // Resetea puntos
+	    $('.reset').click(function() {
+	    	$.ajax({
+            type: 'POST',
+            url: '<%= cotiza_puntos_eliminar_path %>',
+            // Mostramos un mensaje con la respuesta de PHP
+            success: function() {
+            	$('.lista-puntos').remove();
+
+            	// Prepara formularios de puntos
+				$('.interseccion').hide();
+				$('.interseccion_destino').hide();
+				$('.numero').css('display', 'inline-block');
+				$('.numero_destino').css('display', 'inline-block');
+				limpiar_formulario('.origen');
+				limpiar_formulario('.destino');
+				$('#punto_tipo_0').attr('checked', 'checked');
+				$('#punto_tipo_0_destino').attr('checked', 'checked');
+				bloquear_formulario('.destino');
+				habilitar_formulario('.origen');
+				tipo = ".interseccion"
+				numero = ".numero"
+            }
+        })
+	    });
+
 	});
 
 	function limpiar_formulario(ele) {
@@ -66,6 +155,22 @@
 	    });
 
 	}
+
+	function bloquear_formulario(ele) {
+
+	    $(ele).find(':input').each(function() {
+	        $(this).attr("disabled", true); 
+	    });
+
+	}
+
+	function habilitar_formulario(ele) {
+
+	    $(ele).find(':input').each(function() {
+	        $(this).removeAttr("disabled"); 
+	    });
+
+	}
 </script>
 <div class="center hero-unit">
 	<!-- Mensajes -->
@@ -76,9 +181,9 @@
       	<p class="error"><%= flash[:error] %></p>
     <% end %>
 
-    <div class="form_origen">
-    	<div class="titulo">Origen</div>
-		<%= form_for @punto_origen, :url => cotiza_puntos_path do |form| %>
+    <div class="form_puntos origen">
+    	<div class="titulo">Origen <button class="btn btn-danger btn-mini reset" type="button">Comenzar Nuevamente</button></div>
+		<%= form_for @punto_origen, :url => cotiza_puntos_agregar_path, html: { class: "new_punto origen", id: "new_punto_origen" } do |form| %>
 			<fieldset class="fields">
 				<div class="field">
 					<%= form.label :calle %>
@@ -100,22 +205,62 @@
 					<%= form.text_field :comuna %>
 				</div>
 
-				<div class="field">
+				<div class="field tipo">
 					<%= form.label :tipo %>
-					Dirección <%= form.radio_button :tipo, "0", { checked: "checked" } %>
-					Intersección <%= form.radio_button :tipo, "1" %>
+					<div><%= form.radio_button :tipo, "0", { checked: "checked", class: "destino_0" } %> <label for="punto_tipo_0">Dirección</label></div>
+					<div><%= form.radio_button :tipo, "1", { class: "destino_1" } %> <label for="punto_tipo_1">Intersección</label></div>
 				</div>
 			</fieldset>
 
 			<fieldset class="actions">
-				<%= form.submit "Buscar" %>
+				<%= form.submit "Buscar", class: "btn btn-info" %>
+				<div class="btn load origen" disabled ><span><%= image_tag("loading.gif", class: "loading") %></span></div>
 			</fieldset>
 		<% end %>
 	</div>
 
-	<div class="form_cotizacion">
+	<div class="form_puntos destino">
+    	<div class="titulo">Destino</div>
+		<%= form_for @punto_destino, :url => cotiza_puntos_agregar_path do |form| %>
+			<fieldset class="fields">
+				<div class="field">
+					<%= form.label :calle %>
+					<%= form.text_field :calle, size: 5 %>
+				</div>
+
+				<div class="field numero_destino">
+					<%= form.label :numero %>
+					<%= form.text_field :numero %>
+				</div>
+
+				<div class="field interseccion_destino">
+					<%= form.label :interseccion %>
+					<%= form.text_field :interseccion %>
+				</div>
+
+				<div class="field">
+					<%= form.label :comuna %>
+					<%= form.text_field :comuna %>
+				</div>
+
+				<div class="field tipo">
+					<%= form.label :tipo %>
+					<div><%= form.radio_button :tipo, "0", { checked: "checked", id: "punto_tipo_0_destino", class: "destino_0" } %> <label for="punto_tipo_0_destino">Dirección</label></div>
+					<div><%= form.radio_button :tipo, "1", { id: "punto_tipo_1_destino", class: "destino_1" } %> <label for="punto_tipo_1_destino">Intersección</label></div>
+				</div>
+			</fieldset>
+
+			<fieldset class="actions">
+				<%= form.submit "Buscar", class: "btn btn-info" %>
+				<div class="btn load destino" disabled ><span><%= image_tag("loading.gif", class: "loading") %></span></div>
+			</fieldset>
+		<% end %>
+	</div>
+
+	<div class="form_contacto">
+		<div class="titulo">Cotiza</div>
 		<%= form_for @cotizacion, :url => cotiza_path do |form| %>
-			<fieldset class="fields_final">
+			<fieldset class="fields">
 				<div class="field">
 					<%= form.label :nombre %>
 					<%= form.text_field :nombre %>
@@ -128,17 +273,18 @@
 
 				<div class="field">
 					<%= form.label :email %>
-					<%= form.text_field :email %>
+					<%= form.text_field :email, placeholder: "nombre@dominio.com" %>
 				</div>
 
-				<div class="field">
+				<div class="field fecha">
 					<%= form.label :fecha %>
-					<%= form.datetime_select :fecha %>
+					<%= form.datetime_select :fecha, start_year: Date.current.year, end_year: Date.current.year + 5, 
+													order: [:day, :month, :year], default: 5.days.from_now, minute_step: 10 %>
 				</div>
 			</fieldset>
 
 			<fieldset class="actions">
-				<%= form.submit "Enviar" %>
+				<%= form.submit "Solicitar", class: "btn btn-info" %>
 			</fieldset>
 		<% end %>
 	</div>

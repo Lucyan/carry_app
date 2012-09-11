@@ -3,10 +3,12 @@ class CotizarController < ApplicationController
 		@cotizacion = Cotiza.new
 		@punto_origen = Punto.new
 		@punto_destino = Punto.new
-    session[:puntos] = []
+		if !session[:puntos]
+			session[:puntos] = []
+		end
 	end
 
-	def entregar_puntos
+	def agregar_puntos
 		session[:puntos].push Punto.new(params[:punto])
 
 		render :json => session[:puntos].to_json
@@ -14,5 +16,14 @@ class CotizarController < ApplicationController
 		# respond_to do |format|
 		# 	format.json { render :json => @punto.to_json }
 		# end
+	end
+
+	def entregar_puntos
+		render :json => session[:puntos].to_json
+	end
+
+	def eliminar_puntos
+		session[:puntos] = []
+		render :json => session[:puntos].to_json
 	end
 end

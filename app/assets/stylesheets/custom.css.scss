@@ -81,6 +81,11 @@ li span {
 	font-size: 13pt;
 }
 
+.loading {
+	width: 15px;
+	height: 15px;
+}
+
 /* header */
 
 .cabecera {
@@ -202,11 +207,15 @@ li span {
 	}
 }
 
-.form_origen {
+.destino {
+	margin-top: 30px;
+}
+
+.form_puntos {
 	background-image: url('cotiza/fondo-destinos.png');
   	background-size: cover;
   	height: 255px;
-  	width: 581px;
+  	width: 533px;
   	box-shadow:         2px 5px 16px rgba(50, 50, 50, 0.75);
   	border-radius: 20px;
   	* {
@@ -216,7 +225,11 @@ li span {
 		padding-top: 25px;
 		text-align: left;
 		padding-left: 77px;
+		padding-right: 25px;
 		font-size: 13pt;
+		.reset {
+			float: right;
+		}
 	}
 	form {
 		padding-top: 10px;
@@ -225,7 +238,7 @@ li span {
 			text-align: left;
 	  		.field {
 	  			display: inline-block;
-	  			margin-right: 30px;
+	  			margin-right: 13px;
 	  			margin-bottom: 15px;
 	  			label {
 	  				text-align: center;
@@ -237,9 +250,61 @@ li span {
 			  		width: 50px;
 			  	}
 	  		}
-	  		.interseccion {
-	  			position: absolute;
-				padding-left: 254px;
+	  		.tipo {
+	  			div {
+	  				* {
+	  					display: inline-block;
+	  				}	  				
+	  			}
+	  		}
+	  	}
+	  	.actions {
+	  		margin-top: -10px;
+	  		span {
+	  			display: block;
+	  			width: 43px;
+	  		}
+	  		.load {
+	  			float: right;
+	  			margin: 0;
+				margin-right: -65px;
+	  		}
+	  	}
+	}
+}
+
+.form_contacto {
+	background-image: url('cotiza/fondo-contacto.png');
+  	background-size: cover;
+  	height: 541px;
+  	width: 268px;
+  	box-shadow:         2px 5px 16px rgba(50, 50, 50, 0.75);
+  	border-radius: 20px;
+  	float: right;
+	margin-top: -540px;
+	* {
+		font-weight: bold;
+	}
+	.titulo {
+		padding-top: 36px;
+		text-align: left;
+		padding-left: 47px;
+		font-size: 13pt;
+	}
+	form {
+		padding-top: 20px;
+		input[type="text"] {
+	  		border-radius: 10px;
+	  	}
+	  	.fields {
+	  		.fecha {
+		  		margin-top: 40px;
+		  	}
+	  	}
+	  	.actions {
+	  		input {
+	  			margin-top: 30px;
+	  			margin-right: 25px;
 	  		}
 	  	}
 	}
