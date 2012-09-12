@@ -367,7 +367,9 @@ li span {
 	.contenido {
 		width: 730px;
 		background-image: url('cotiza/tabla-row.png');
-		background-size: cover;
+		background-repeat: no-repeat;
+		background-position-x: 0;
+		background-position-y: 0;
 		padding: 0 45px 0 45px;
 		table {
 			width: 100%;
