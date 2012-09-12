@@ -24,46 +24,18 @@ $(document).ready(function() {
 	$.ajax({
         type: 'POST',
         dataType: 'json',
-        url: '<%= cotiza_puntos_entregar_path %>',
+        url: '/cotiza/puntos/entregar',
         // Mostramos un mensaje con la respuesta de PHP
         success: function(data) {
         	$('.tabla-contenido').remove();
 
         	if (data.length > 0) {
-        		var items = [];
-            	numero_destinos = 0;
             	tipo = ".interseccion_destino";
 	    		numero = ".numero_destino";
 
-            	$.each(data, function(key,val){
-            		numero_destinos++;
+            	pinta_elementos(data);
 
-            		var items = [];
-            		if (key == 0) {
-            			llenar_formulario(val);
-            			bloquear_formulario('.origen');
-            			habilitar_formulario('.destino');
-            			$('.reset').removeAttr("disabled"); 
-            			items.push('<td>Origen</td>');
-            		} else {
-            			items.push('<td>' + key + '</td>');
-            		}
-            		items.push('<td>' + val.calle + '</td>');
-            		if (val.tipo == 0) {
-            			items.push('<td>Dirección</td>');
-            			items.push('<td>' + val.numero + '</td>');
-            		} else {
-            			items.push('<td>Intersección</td>');
-            			items.push('<td>' + val.interseccion + '</td>');
-            		}
-            		items.push('<td>' + val.comuna + '</td>');
-            		items.push('<td>Acciones</td>');
-
-            		$('<tr/>', {
-					    'class': 'tabla-contenido',
-					    html: items.join('')
-					}).appendTo('.lista-puntos');
-            	});
+				desabilita_controles()
         	}
 
         	$('.text-destinos').html(numero_destinos);
@@ -97,38 +69,10 @@ $(document).ready(function() {
 	            // Mostramos un mensaje con la respuesta de PHP
 	            success: function(data) {
 	            	$('.tabla-contenido').remove();
-	            	var items = [];
-	            	numero_destinos = 0;
-
-	            	$.each(data, function(key,val){
-	            		numero_destinos++;
-
-	            		var items = [];
-	            		if (key == 0) {
-	            			items.push('<td>Origen</td>');
-	            		} else {
-	            			items.push('<td>' + key + '</td>');
-	            		}
-	            		items.push('<td>' + val.calle + '</td>');
-	            		if (val.tipo == 0) {
-	            			items.push('<td>Dirección</td>');
-	            			items.push('<td>' + val.numero + '</td>');
-	            		} else {
-	            			items.push('<td>Intersección</td>');
-	            			items.push('<td>' + val.interseccion + '</td>');
-	            		}
-	            		items.push('<td>' + val.comuna + '</td>');
-	            		items.push('<td>Acciones</td>');
-
-	            		$('<tr/>', {
-						    'class': 'tabla-contenido',
-						    html: items.join('')
-						}).appendTo('.lista-puntos');
-	            	});
-
-	            	$('.text-destinos').html(numero_destinos);
-
 	            	
+	            	pinta_elementos(data);
+	            	
+					desabilita_controles();
 
 					if (limpiar) {
 						limpiar_formulario('.destino');
@@ -173,7 +117,7 @@ $(document).ready(function() {
     	if (confirm("Está seguro que quiere comenzar nuevamente? (Se eliminaran todos los destinos ingresados)")) {
     		$.ajax({
 	            type: 'POST',
-	            url: '<%= cotiza_puntos_eliminar_path %>',
+	            url: '/cotiza/puntos/eliminar',
 	            // Mostramos un mensaje con la respuesta de PHP
 	            success: function() {
 	            	$('.tabla-contenido').remove();
@@ -268,4 +212,56 @@ function verificar_formulario(ele) {
     });
 
     return verificado;
+}
+
+function pinta_elementos(data) {
+	var items = [];
+	numero_destinos = 0;
+
+	$.each(data, function(key,val){
+		numero_destinos++;
+
+		var items = [];
+		if (key == 0) {
+			items.push('<td>Origen</td>');
+		} else {
+			items.push('<td>' + key + '</td>');
+		}
+		items.push('<td>' + val.calle + '</td>');
+		if (val.tipo == 0) {
+			items.push('<td>Dirección</td>');
+			items.push('<td>' + val.numero + '</td>');
+		} else {
+			items.push('<td>Intersección</td>');
+			items.push('<td>' + val.interseccion + '</td>');
+		}
+		items.push('<td>' + val.comuna + '</td>');
+		items.push('<td><div class="btn-toolbar">'+
+							'<div class="btn-group">'+
+								'<button class="btn" id="arriba-'+key+'"><i class="icon-arrow-up"></i></button>'+
+								'<button class="btn" id="abajo-'+key+'"><i class="icon-arrow-down"></i></button>'+
+								'<button class="btn" id="eliminar-'+key+'"><i class="icon-remove"></i></button>'+
+							'</div>'+
+					'</div></td>');
+
+		$('<tr/>', {
+		    'class': 'tabla-contenido',
+		    html: items.join('')
+		}).appendTo('.lista-puntos');
+	});
+}
+
+function desabilita_controles() {
+	// Desabilita controles del destino
+	$('#arriba-0').attr('disabled', 'disabled');
+	$('#abajo-0').attr('disabled', 'disabled');
+	$('#eliminar-0').attr('disabled', 'disabled');
+
+	// Desabilita botón subir del primer destino
+	$('#arriba-1').attr('disabled', 'disabled');
+
+	// Desabilita botón bajar del último destino
+	$('#abajo-'+(numero_destinos-1)).attr('disabled', 'disabled');
+
+	$('.text-destinos').html(numero_destinos);
 }
