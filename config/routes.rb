@@ -4,7 +4,8 @@ CarryApp::Application.routes.draw do
 
   match 'servicio', to: 'static_pages#servicio'
 
-  match 'cotiza', to: 'cotizar#nuevo'
+  match 'cotiza' => 'cotizar#nuevo', :as => 'cotiza', :via => :get
+  match 'cotiza' => 'cotizar#guardar', :as => 'cotiza', :via => :post
   match 'cotiza/puntos/agregar', to: 'cotizar#agregar_puntos'
   match 'cotiza/puntos/entregar', to: 'cotizar#entregar_puntos'
   match 'cotiza/puntos/eliminar', to: 'cotizar#eliminar_todo'

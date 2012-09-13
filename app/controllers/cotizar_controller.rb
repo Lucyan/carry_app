@@ -11,6 +11,14 @@ class CotizarController < ApplicationController
 		end
 	end
 
+	def guardar
+		if session[:puntos].length > 2
+			session[:puntos] = []
+		else
+			redirect_to(cotiza_path, :error => "Debes ingresar el Origen y al menos un Destino")
+		end
+	end
+
 	def agregar_puntos
 		session[:puntos].push Punto.new(params[:punto])
 
