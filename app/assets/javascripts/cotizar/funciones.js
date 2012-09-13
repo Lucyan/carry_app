@@ -49,7 +49,8 @@ $(document).ready(function() {
 	// Interceptamos el evento submit
     $('.new_punto').submit(function() {
 
-    	$('.error, .notice').remove();
+    	$('.mensajes_error, .notice').remove();
+    	quitar_error();
 
     	$('.load').show();
 
@@ -143,6 +144,7 @@ $(document).ready(function() {
 					tipo = ".interseccion"
 					numero = ".numero"
 					$('.text-destinos').html("0");
+					quitar_error();
 	            }
         	});
     	}
@@ -211,16 +213,26 @@ function verificar_formulario(ele) {
         switch(this.type) {
             case 'text':
             	if ($(this).val() == '') {
-            		$(this).parent().addClass('control-group error');
+            		$(this).parent().addClass('error');
             		verificado = false;
             	} else {
-            		$(this).parent().removeClass('control-group error');
+            		$(this).parent().removeClass('error');
             	}
                 break;
         }
     });
 
     return verificado;
+}
+
+function quitar_error() {
+	$('form').find(':input').each(function() {
+		switch(this.type) {
+			case 'text':
+				$(this).parent().removeClass('error');
+				break;
+		}
+	});
 }
 
 function pinta_elementos(data) {

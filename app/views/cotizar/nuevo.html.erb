@@ -8,34 +8,41 @@
       	<p class="notice"><%= flash[:notice] %></p>
     <% end %>
     <% if flash[:error] %>
-      	<p class="error"><%= flash[:error] %></p>
+      	<div class="mensajes_error">
+      		<p>Verifica los siguientes errores</p>
+      		<ul>
+      			<% flash[:error].each do |mensaje| %>
+					<li><%= mensaje %></li>
+				<% end %>
+      		</ul>
+      	</div>
     <% end %>
 
     <div class="form_puntos origen">
     	<div class="titulo">Origen <button class="btn btn-danger btn-mini reset" type="button">Comenzar Nuevamente</button></div>
 		<%= form_for @punto_origen, :url => cotiza_puntos_agregar_path, html: { class: "new_punto origen", id: "new_punto_origen" } do |form| %>
 			<fieldset class="fields">
-				<div class="field">
+				<div class="field control-group">
 					<%= form.label :calle %>
 					<%= form.text_field :calle, size: 5 %>
 				</div>
 
-				<div class="field numero">
+				<div class="field control-group numero">
 					<%= form.label :numero, "Número" %>
 					<%= form.text_field :numero %>
 				</div>
 
-				<div class="field interseccion">
+				<div class="field control-group interseccion">
 					<%= form.label :interseccion, "Intersección" %>
 					<%= form.text_field :interseccion %>
 				</div>
 
-				<div class="field">
+				<div class="field control-group">
 					<%= form.label :comuna %>
 					<%= form.text_field :comuna %>
 				</div>
 
-				<div class="field tipo">
+				<div class="field control-group tipo">
 					<%= form.label :tipo %>
 					<div><%= form.radio_button :tipo, "0", { checked: "checked", class: "destino_0" } %> <label for="punto_tipo_0">Dirección</label></div>
 					<div><%= form.radio_button :tipo, "1", { class: "destino_1" } %> <label for="punto_tipo_1">Intersección</label></div>
@@ -53,27 +60,27 @@
     	<div class="titulo">Destino</div>
 		<%= form_for @punto_destino, :url => cotiza_puntos_agregar_path do |form| %>
 			<fieldset class="fields">
-				<div class="field">
+				<div class="field control-group">
 					<%= form.label :calle %>
 					<%= form.text_field :calle, size: 5 %>
 				</div>
 
-				<div class="field numero_destino">
+				<div class="field control-group numero_destino">
 					<%= form.label :numero, "Número" %>
 					<%= form.text_field :numero %>
 				</div>
 
-				<div class="field interseccion_destino">
+				<div class="field control-group interseccion_destino">
 					<%= form.label :interseccion, "Intersección" %>
 					<%= form.text_field :interseccion %>
 				</div>
 
-				<div class="field">
+				<div class="field control-group">
 					<%= form.label :comuna %>
 					<%= form.text_field :comuna %>
 				</div>
 
-				<div class="field tipo">
+				<div class="field control-group tipo">
 					<%= form.label :tipo %>
 					<div><%= form.radio_button :tipo, "0", { checked: "checked", id: "punto_tipo_0_destino", class: "destino_0" } %> <label for="punto_tipo_0_destino">Dirección</label></div>
 					<div><%= form.radio_button :tipo, "1", { id: "punto_tipo_1_destino", class: "destino_1" } %> <label for="punto_tipo_1_destino">Intersección</label></div>
@@ -91,28 +98,28 @@
 		<div class="titulo">Cotiza</div>
 		<%= form_for @cotizacion, :url => cotiza_path do |form| %>
 			<fieldset class="fields">
-				<div class="field">
+				<div class="field control-group">
 					<%= form.label :nombre %>
 					<%= form.text_field :nombre %>
 				</div>
 
-				<div class="field">
+				<div class="field control-group">
 					<%= form.label :telefono, "Teléfono" %>
 					<%= form.text_field :telefono %>
 				</div>
 
-				<div class="field">
+				<div class="field control-group">
 					<%= form.label :email, "E-Mail" %>
 					<%= form.text_field :email, placeholder: "nombre@dominio.com" %>
 				</div>
 
-				<div class="field fecha">
+				<div class="field control-group fecha">
 					<%= form.label :fecha, "Fecha Viaje" %>
 					<%= form.datetime_select :fecha, start_year: Date.current.year, end_year: Date.current.year + 5, 
 													order: [:day, :month, :year], default: 5.days.from_now, minute_step: 10 %>
 				</div>
 
-				<div class="field-linea">
+				<div class="field-linea control-group">
 					<%= form.label :numero_personas, "Número de Personas" %>
 					<%= form.text_field :numero_personas, { class: "input-mini" } %>
 				</div>

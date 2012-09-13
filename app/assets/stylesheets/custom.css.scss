@@ -345,7 +345,7 @@ li span {
 	  	}
 	  	.actions {
 	  		input {
-	  			margin-top: 15px;
+	  			margin-top: 0px;
 	  			margin-right: 25px;
 	  		}
 	  	}
@@ -403,9 +403,31 @@ li span {
 }
 
 /* Mensajes y Errores */
-p.error {
-	font-weight: bold;
-	color: #cd2200;
+.mensajes_error {
+	margin-bottom: 20px;
+	* {
+		color: #cd2200;
+	}
+	p {
+		color: #cd2200;
+		font-weight: bold;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	ul {
+		margin-right: 130px;
+		margin-left: 130px;
+	}
+	ol, li {
+		line-height: normal;
+		font-size: 13px;
+	}
+}
+
+.field_with_errors {
+	input {
+		border-color: #953B39;
+	}
 }
 
 /* footer */

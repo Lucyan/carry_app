@@ -12,12 +12,34 @@ class CotizarController < ApplicationController
 	end
 
 	def guardar
+		@cotizacion = Cotiza.new
+		@punto_origen = Punto.new
+		@punto_destino = Punto.new
 		if session[:puntos].length > 1
-			session[:puntos] = []
-			redirect_to(cotiza_path, :notice => "Tu Cotizacion fue recibida, nos contactaremos contigo para su confirmacion" )
+			@cotizacion = Cotiza.new(params[:cotiza])
+			if @cotizacion.valid?
+				session[:puntos].each do |puntos|
+					logger.debug "TMP #{puntos}"
+					logger.debug "TMP #{puntos.calle}"
+					logger.debug "TMP #{puntos.tipo}"
+					logger.debug "TMP #{puntos.numero}"
+					logger.debug "TMP #{puntos.interseccion}"
+					logger.debug "TMP #{puntos.comuna}"
+					logger.debug "TMP #{puntos.cotiza_id}"
+
+					@cotizacion.puntos.new(calle: puntos.calle, tipo: puntos.tipo, numero: puntos.numero.to_i, interseccion: puntos.interseccion, comuna: puntos.comuna)
+				end
+				@cotizacion.save
+				session[:puntos] = []
+				@cotizacion = Cotiza.new
+				flash[:notice] = "Tu Cotizacion fue recibida, nos contactaremos contigo para su confirmacion"
+			else
+				flash[:error] = @cotizacion.errors.full_messages
+			end
 		else
-			redirect_to(cotiza_path, :flash => { :error => "Debes ingresar el Origen y al menos un Destino" })
+			flash[:error] = ["Debes ingresar el Origen y al menos un Destino"]
 		end
+		render 'nuevo'
 	end
 
 	def agregar_puntos

@@ -1,0 +1,8 @@
+es:
+  activerecord:
+    errors:
+      models:
+        cotiza:
+          attributes:
+            telefono:
+              blank: "es requerido"
