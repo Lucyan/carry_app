@@ -49,6 +49,8 @@ $(document).ready(function() {
 	// Interceptamos el evento submit
     $('.new_punto').submit(function() {
 
+    	$('.error, .notice').remove();
+
     	$('.load').show();
 
     	if (verificar_formulario(this)) {

@@ -12,10 +12,11 @@ class CotizarController < ApplicationController
 	end
 
 	def guardar
-		if session[:puntos].length > 2
+		if session[:puntos].length > 1
 			session[:puntos] = []
+			redirect_to(cotiza_path, :notice => "Tu Cotizacion fue recibida, nos contactaremos contigo para su confirmacion" )
 		else
-			redirect_to(cotiza_path, :error => "Debes ingresar el Origen y al menos un Destino")
+			redirect_to(cotiza_path, :flash => { :error => "Debes ingresar el Origen y al menos un Destino" })
 		end
 	end
 
