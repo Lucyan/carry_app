@@ -1,5 +1,9 @@
 CarryApp::Application.routes.draw do
 
+  get "admin/index"
+
+  get "admin/listado"
+
   root to: 'static_pages#inicio'
 
   match 'servicio', to: 'static_pages#servicio'
