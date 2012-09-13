@@ -1,2 +1,9 @@
-<h1>Admin#listado</h1>
-<p>Find me in app/views/admin/listado.html.erb</p>
+<% provide(:title, 'Administrador - Cotizaciones') %>
+<div class="center hero-unit">
+	<h1>Cotizaciones</h1>
+	<% @cotizaciones.each do |cotizacion| %>
+		<div>
+			<%= cotizacion.nombre %>
+		</div>
+	<% end %>
+</div>

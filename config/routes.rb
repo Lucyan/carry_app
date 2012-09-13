@@ -1,9 +1,4 @@
 CarryApp::Application.routes.draw do
-
-  get "admin/index"
-
-  get "admin/listado"
-
   root to: 'static_pages#inicio'
 
   match 'servicio', to: 'static_pages#servicio'
@@ -21,6 +16,14 @@ CarryApp::Application.routes.draw do
 
   match 'contacto' => 'contacto#new', :as => 'contacto', :via => :get
   match 'contacto' => 'contacto#create', :as => 'contacto', :via => :post
+
+
+  # Admin
+
+  match 'admin' => 'admin#index', :as => 'admin', :via => :get
+  match 'admin' => 'admin#login', :as => 'admin', :via => :post
+
+  match 'admin/listado', to: 'admin#listado'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

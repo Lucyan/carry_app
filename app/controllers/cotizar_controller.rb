@@ -19,14 +19,6 @@ class CotizarController < ApplicationController
 			@cotizacion = Cotiza.new(params[:cotiza])
 			if @cotizacion.valid?
 				session[:puntos].each do |puntos|
-					logger.debug "TMP #{puntos}"
-					logger.debug "TMP #{puntos.calle}"
-					logger.debug "TMP #{puntos.tipo}"
-					logger.debug "TMP #{puntos.numero}"
-					logger.debug "TMP #{puntos.interseccion}"
-					logger.debug "TMP #{puntos.comuna}"
-					logger.debug "TMP #{puntos.cotiza_id}"
-
 					@cotizacion.puntos.new(calle: puntos.calle, tipo: puntos.tipo, numero: puntos.numero.to_i, interseccion: puntos.interseccion, comuna: puntos.comuna)
 				end
 				@cotizacion.save

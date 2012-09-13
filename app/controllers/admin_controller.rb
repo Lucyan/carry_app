@@ -3,5 +3,6 @@ class AdminController < ApplicationController
   end
 
   def listado
+  	@cotizaciones = Cotiza.all
   end
 end
