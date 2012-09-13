@@ -1,3 +1,6 @@
+# Controller Cotiza
+# Nota: Debug: logger.debug "TMP #{tmp.calle}"
+
 class CotizarController < ApplicationController
 	def nuevo
 		@cotizacion = Cotiza.new
@@ -22,12 +25,27 @@ class CotizarController < ApplicationController
 		render :json => session[:puntos].to_json
 	end
 
-	def eliminar_puntos
+	def eliminar_todo
 		session[:puntos] = []
 		render :json => session[:puntos].to_json
 	end
 
+	def eliminar_punto
+		session[:puntos].delete_at(params[:id].to_i)
+		render :json => session[:puntos].to_json
+	end
+
 	def mover_arriba
-		
+		tmp = session[:puntos][params[:id].to_i-1]
+		session[:puntos][params[:id].to_i-1] = session[:puntos][params[:id].to_i]
+		session[:puntos][params[:id].to_i] = tmp
+		render :json => session[:puntos].to_json
+	end
+
+	def mover_abajo
+		tmp = session[:puntos][params[:id].to_i+1]
+		session[:puntos][params[:id].to_i+1] = session[:puntos][params[:id].to_i]
+		session[:puntos][params[:id].to_i] = tmp
+		render :json => session[:puntos].to_json
 	end
 end

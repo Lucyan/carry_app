@@ -245,9 +245,9 @@ function pinta_elementos(data) {
 		items.push('<td>' + val.comuna + '</td>');
 		items.push('<td><div class="btn-toolbar">'+
 							'<div class="btn-group">'+
-								'<button class="btn" id="arriba-'+key+'"><i class="icon-arrow-up"></i></button>'+
-								'<button class="btn" id="abajo-'+key+'"><i class="icon-arrow-down"></i></button>'+
-								'<button class="btn" id="eliminar-'+key+'"><i class="icon-remove"></i></button>'+
+								'<button class="btn" id="arriba-'+key+'" onclick="arriba('+key+');"><i class="icon-arrow-up"></i></button>'+
+								'<button class="btn" id="abajo-'+key+'" onclick="abajo('+key+');"><i class="icon-arrow-down"></i></button>'+
+								'<button class="btn" id="eliminar-'+key+'" onclick="eliminar('+key+');"><i class="icon-remove"></i></button>'+
 							'</div>'+
 					'</div></td>');
 
@@ -271,4 +271,87 @@ function desabilita_controles() {
 	$('#abajo-'+(numero_destinos-1)).attr('disabled', 'disabled');
 
 	$('.text-destinos').html(numero_destinos);
+}
+
+
+
+// FUNCIONES DE MANEJO DE PUNTOS
+function eliminar(id) {
+	if (confirm("Está seguro que quiere eliminar este destino?")) {
+		$.ajax({
+	        type: 'POST',
+	        dataType: 'json',
+	        url: '/cotiza/puntos/eliminar/'+id,
+	        success: function(data) {
+	        	$('.tabla-contenido').remove();
+
+	        	if (data.length > 0) {
+	            	tipo = ".interseccion_destino";
+		    		numero = ".numero_destino";
+
+		    		llenar_formulario(data[0]);
+					bloquear_formulario('.origen');
+					habilitar_formulario('.destino');
+
+	            	pinta_elementos(data);
+
+					desabilita_controles()
+	        	}
+
+	        	$('.text-destinos').html(numero_destinos);
+	        }
+	    });
+	}
+}
+
+function arriba(id) {
+	$.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/cotiza/puntos/mover/arriba/'+id,
+        success: function(data) {
+        	$('.tabla-contenido').remove();
+
+        	if (data.length > 0) {
+            	tipo = ".interseccion_destino";
+	    		numero = ".numero_destino";
+
+	    		llenar_formulario(data[0]);
+				bloquear_formulario('.origen');
+				habilitar_formulario('.destino');
+
+            	pinta_elementos(data);
+
+				desabilita_controles()
+        	}
+
+        	$('.text-destinos').html(numero_destinos);
+        }
+    });
+}
+
+function abajo(id) {
+	$.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/cotiza/puntos/mover/abajo/'+id,
+        success: function(data) {
+        	$('.tabla-contenido').remove();
+
+        	if (data.length > 0) {
+            	tipo = ".interseccion_destino";
+	    		numero = ".numero_destino";
+
+	    		llenar_formulario(data[0]);
+				bloquear_formulario('.origen');
+				habilitar_formulario('.destino');
+
+            	pinta_elementos(data);
+
+				desabilita_controles()
+        	}
+
+        	$('.text-destinos').html(numero_destinos);
+        }
+    });
 }

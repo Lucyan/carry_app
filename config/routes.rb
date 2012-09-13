@@ -7,7 +7,10 @@ CarryApp::Application.routes.draw do
   match 'cotiza', to: 'cotizar#nuevo'
   match 'cotiza/puntos/agregar', to: 'cotizar#agregar_puntos'
   match 'cotiza/puntos/entregar', to: 'cotizar#entregar_puntos'
-  match 'cotiza/puntos/eliminar', to: 'cotizar#eliminar_puntos'
+  match 'cotiza/puntos/eliminar', to: 'cotizar#eliminar_todo'
+  match 'cotiza/puntos/eliminar/:id', to: 'cotizar#eliminar_punto'
+  match 'cotiza/puntos/mover/arriba/:id', to: 'cotizar#mover_arriba'
+  match 'cotiza/puntos/mover/abajo/:id', to: 'cotizar#mover_abajo'
 
   match 'contact', to: 'static_pages#contacto'
 
