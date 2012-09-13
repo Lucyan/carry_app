@@ -33,6 +33,10 @@ $(document).ready(function() {
             	tipo = ".interseccion_destino";
 	    		numero = ".numero_destino";
 
+	    		llenar_formulario(data[0]);
+				bloquear_formulario('.origen');
+				habilitar_formulario('.destino');
+
             	pinta_elementos(data);
 
 				desabilita_controles()
@@ -83,7 +87,6 @@ $(document).ready(function() {
 					}
 
 					bloquear_formulario('.origen');
-					$('.reset').removeAttr("disabled"); 
 					tipo = ".interseccion_destino";
 	    			numero = ".numero_destino";
 	            }
@@ -131,6 +134,8 @@ $(document).ready(function() {
 					limpiar_formulario('.destino');
 					$('#punto_tipo_0').attr('checked', 'checked');
 					$('#punto_tipo_0_destino').attr('checked', 'checked');
+					$('.interseccion input').attr('value', '0');
+					$('.interseccion_destino input').attr('value', '0');
 					bloquear_formulario('.destino');
 					habilitar_formulario('.origen');
 					tipo = ".interseccion"
@@ -185,6 +190,8 @@ function bloquear_formulario(ele) {
     $(ele).find(':input').each(function() {
         $(this).attr("disabled", true); 
     });
+
+    $('.reset').removeAttr("disabled"); 
 }
 
 function habilitar_formulario(ele) {

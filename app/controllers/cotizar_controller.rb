@@ -26,4 +26,8 @@ class CotizarController < ApplicationController
 		session[:puntos] = []
 		render :json => session[:puntos].to_json
 	end
+
+	def mover_arriba
+		
+	end
 end
