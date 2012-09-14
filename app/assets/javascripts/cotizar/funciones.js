@@ -266,7 +266,7 @@ function pinta_elementos(data) {
 					'</div></td>');
 
 		$('<tr/>', {
-		    'class': 'tabla-contenido',
+			class: 'tabla-contenido',
 		    html: items.join('')
 		}).appendTo('.lista-puntos');
 	});

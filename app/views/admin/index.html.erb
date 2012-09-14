@@ -1,5 +1,27 @@
 <% provide(:title, 'Administrador') %>
 <div class="center hero-unit">
-	<h1>Admin#index</h1>
-	<p>Find me in app/views/admin/index.html.erb</p>
+	<h1>Administración</h1>
+
+	<% if flash[:error] %>
+      	<div class="mensajes_error">
+      		<p style="width: auto; text-align: center;"><%= flash[:error] %></p>
+      	</div>
+    <% end %>
+
+	<%= form_for(:session, url: admin_path) do |f| %>
+		<fieldset class="fields">
+			<div class="field">
+  				<%= f.label :email %>
+  				<%= f.text_field :email %>
+  			</div>
+  			<div class="field">
+  				<%= f.label :password %>
+  				<%= f.password_field :password %>
+  			</div>
+  		</fieldset>
+
+  		<fieldset class="actions-login">
+  			<%= f.submit "Ingresar", class: "btn btn-large btn-primary" %>
+  		</fieldset>
+	<% end %>
 </div>

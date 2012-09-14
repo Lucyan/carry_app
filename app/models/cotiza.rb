@@ -1,5 +1,5 @@
 class Cotiza < ActiveRecord::Base
-  attr_accessible :email, :fecha, :nombre, :telefono, :numero_personas
+  attr_accessible :email, :fecha, :nombre, :telefono, :numero_personas, :estado
   has_many :puntos
 
   validates :nombre, :presence => true

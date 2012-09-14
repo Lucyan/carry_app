@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120912035102) do
+ActiveRecord::Schema.define(:version => 20120914072527) do
 
   create_table "cotizas", :force => true do |t|
     t.string   "nombre"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20120912035102) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "numero_personas"
+    t.integer  "estado"
   end
 
   create_table "puntos", :force => true do |t|
@@ -43,5 +44,13 @@ ActiveRecord::Schema.define(:version => 20120912035102) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "password_digest"
+  end
 
 end

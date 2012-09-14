@@ -21,6 +21,7 @@ class CotizarController < ApplicationController
 				session[:puntos].each do |puntos|
 					@cotizacion.puntos.new(calle: puntos.calle, tipo: puntos.tipo, numero: puntos.numero.to_i, interseccion: puntos.interseccion, comuna: puntos.comuna)
 				end
+				@cotizacion.estado = 0
 				@cotizacion.save
 				session[:puntos] = []
 				@cotizacion = Cotiza.new

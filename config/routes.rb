@@ -22,8 +22,12 @@ CarryApp::Application.routes.draw do
 
   match 'admin' => 'admin#index', :as => 'admin', :via => :get
   match 'admin' => 'admin#login', :as => 'admin', :via => :post
+  match 'admin/logout', to: 'admin#logout'
 
   match 'admin/listado', to: 'admin#listado'
+  match 'admin/listado/archivados', to: 'admin#listado_archivados'
+  match 'admin/listado/eliminar/:id', to: 'admin#eliminar_cotizacion'
+  match 'admin/listado/archivar/:id', to: 'admin#archivar_cotizacion'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
