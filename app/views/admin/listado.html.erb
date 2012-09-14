@@ -3,9 +3,9 @@
   <%= javascript_include_tag "listado" %>
 <% end %>
 <div class="center hero-unit">
-	<a href="/admin/logout" class="btn btn-primary logout">Desconectar</a>
+	<%= link_to "Desconectar", admin_logout_path, class: "btn btn-primary logout" %>
 	<h1>Cotizaciones</h1>
-
+	<%= link_to "Ver Archivados", admin_listado_archivados_path, class: "btn btn-info opciones" %>
 	<div class="puntos">
 		<div class="header" ><span class="titulo" >Cotizaciones Pendientes</span></div>
 		<div class="contenido">
