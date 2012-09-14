@@ -1,6 +1,5 @@
 class AdminController < ApplicationController
   def index
-  	autenticacion
     redirect_to admin_listado_path
   end
 
@@ -18,7 +17,7 @@ class AdminController < ApplicationController
 
   def logout
   	reset_session
-  	redirect_to admin_path
+  	redirect_to admin_listado_path
   end
 
   def listado
