@@ -18,6 +18,39 @@
       	</div>
     <% end %>
 
+    <div class="puntos">
+		<div class="header" ><span class="titulo" >Lista de Destinos</span></div>
+		<div class="contenido">
+			<table class="lista-puntos">
+				<tr class="cabecera">
+					<th class="inicio">Destino</th>
+					<th>Calle</th>
+					<th>Tipo</th>
+					<th>Número/Intersección</th>
+					<th>Comuna</th>
+					<th class="fin">Acciones</th>
+				</tr>
+				<tr class="tabla-contenido">
+					<td>1</td>
+					<td>Calle 1</td>
+					<td>Intersección</td>
+					<td>Calle 2</td>
+					<td>Comuna1</td>
+					<td>Acciones</td>
+				</tr>
+				<tr class="tabla-contenido">
+					<td>2</td>
+					<td>Calle 3</td>
+					<td>Dirección</td>
+					<td>123123</td>
+					<td>Comuna1</td>
+					<td>Acciones</td>
+				</tr>
+			</table>
+		</div>
+		<div class="footer" ></div>
+	</div>
+
     <div class="form_puntos origen">
     	<div class="titulo">Origen <button class="btn btn-danger btn-mini reset" type="button">Comenzar Nuevamente</button></div>
 		<%= form_for @punto_origen, :url => cotiza_puntos_agregar_path, html: { class: "new_punto origen", id: "new_punto_origen" } do |form| %>
@@ -114,9 +147,14 @@
 				</div>
 
 				<div class="field control-group fecha">
-					<%= form.label :fecha, "Fecha Viaje" %>
-					<%= form.datetime_select :fecha, start_year: Date.current.year, end_year: Date.current.year + 5, 
-													order: [:day, :month, :year], default: 5.days.from_now, minute_step: 10 %>
+					<%= form.label :fecha, "Fecha de Viaje" %>
+					<%= form.date_select :fecha, start_year: Date.current.year, end_year: Date.current.year + 5, 
+													order: [:day, :month, :year], default: 5.days.from_now %>
+					<label>Hora de Viaje</label>
+					<%= form.time_select :fecha, minute_step: 10 %>
+					<script>
+						$('.fecha input[type="hidden"]').remove();
+					</script>
 				</div>
 
 				<div class="field-linea control-group">
@@ -133,36 +171,5 @@
 		<% end %>
 	</div>
 
-	<div class="puntos">
-		<div class="header" ><span class="titulo" >Lista de Destinos</span></div>
-		<div class="contenido">
-			<table class="lista-puntos">
-				<tr class="cabecera">
-					<th class="inicio">Destino</th>
-					<th>Calle</th>
-					<th>Tipo</th>
-					<th>Número/Intersección</th>
-					<th>Comuna</th>
-					<th class="fin">Acciones</th>
-				</tr>
-				<tr class="tabla-contenido">
-					<td>1</td>
-					<td>Calle 1</td>
-					<td>Intersección</td>
-					<td>Calle 2</td>
-					<td>Comuna1</td>
-					<td>Acciones</td>
-				</tr>
-				<tr class="tabla-contenido">
-					<td>2</td>
-					<td>Calle 3</td>
-					<td>Dirección</td>
-					<td>123123</td>
-					<td>Comuna1</td>
-					<td>Acciones</td>
-				</tr>
-			</table>
-		</div>
-		<div class="footer" ></div>
-	</div>
+	
 </div>

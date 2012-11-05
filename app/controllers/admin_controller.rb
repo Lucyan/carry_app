@@ -4,14 +4,14 @@ class AdminController < ApplicationController
   end
 
   def login
-	user = User.find_by_email(params[:session][:email].downcase)
-	if user && user.authenticate(params[:session][:password])
-		session[:login] = user
-    session[:last_seen] = Time.now
-		redirect_to admin_listado_path
-	else
-		flash.now[:error] = 'Usuario o Password Incorrectos'
-		render 'index'
+    user = User.find_by_email(params[:session][:email].downcase)
+  	if user && user.authenticate(params[:session][:password])
+  		session[:login] = user
+      session[:last_seen] = Time.now
+  		redirect_to admin_listado_path
+  	else
+  		flash.now[:error] = 'Usuario o Password Incorrectos'
+  		render 'login'
     end
   end
 
