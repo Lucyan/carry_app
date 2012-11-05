@@ -21,3 +21,8 @@ doc/
 .project
 .DS_Store
 .idea
+
+# Producción
+.rvmrc*
+setup_load_paths.rb
+/public/assets/*.*
